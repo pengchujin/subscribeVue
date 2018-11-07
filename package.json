@@ -1,0 +1,27 @@
+{
+  "name": "testVue",
+  "version": "1.0.0",
+  "description": "My first-rate Nuxt.js project",
+  "author": "pengchujin",
+  "private": true,
+  "scripts": {
+    "dev": "cross-env NODE_ENV=development nodemon server/index.js --watch server",
+    "build": "nuxt build",
+    "start": "cross-env NODE_ENV=production node server/index.js",
+    "generate": "nuxt generate"
+  },
+  "dependencies": {
+    "@nuxtjs/axios": "^5.0.0",
+    "cross-env": "^5.2.0",
+    "element-ui": "^2.4.6",
+    "koa": "^2.5.2",
+    "nuxt": "^2.0.0",
+    "vue-fullcalendar": "^1.0.9"
+  },
+  "devDependencies": {
+    "eslint-config-prettier": "^3.1.0",
+    "eslint-plugin-prettier": "2.6.2",
+    "nodemon": "^1.11.0",
+    "prettier": "1.14.3"
+  }
+}
