@@ -1,15 +1,17 @@
 <template>
   <section class="container">
-    <div>
+      <div>
+        <div id="msg-dependencies" v-if="msgCount == 0">
+      </div>
       <logo/>
       <p>>请输入邮箱</p>
-      <el-input v-model="input"></el-input>
+      <el-input v-model="user.name"></el-input>
       <p>>请输入密码</p>
-      <el-input v-model="input" type="password"></el-input>
+      <el-input v-model="user.password" type="password"></el-input>
       <div class="button">
       <el-row>
         <el-button type="primary">>登录</el-button>
-        <el-button type="success">>注册</el-button>
+        <el-button @click="signup" type="success">>注册</el-button>
       </el-row>
       </div>
     </div>
@@ -22,9 +24,34 @@ import Logo from '~/components/Logo.vue'
 export default {
   data() {
     return {
-      test: "Keep Vue"
+     user: {
+       name: '',
+       password: ''
+     }
     }
   }, 
+  computed: {
+       msgCount(){
+            let type = this.$store.state.msg.type
+            let msg = this.$store.state.msg.content
+            let showClose = this.$store.state.msg.showClose
+            if(msg !== "") {
+              let param = { "type":type, message:msg, showClose: showClose };
+              console.log("message param:",param)
+              this.$message(param);
+            }
+            return this.$store.state.msg.count
+            //  return this.$store.state.msg.count;
+          }
+  },
+  methods: {
+    signup() {
+      let vm = this
+      console.log(this.user, "method user")
+      console.log("点击注册")
+      this.$store.dispatch('signup', vm.user, vm)
+    }
+  },
   components: {
     Logo
   }
@@ -42,7 +69,7 @@ export default {
 }
 .button {
   text-align: center;
-  padding: 10px
+  padding: 13px
 }
 p {
   text-align: start;
