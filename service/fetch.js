@@ -4,9 +4,8 @@ const axios = require('axios')
 let url = 'http://localhost:3001/graphql'
 
 export async function signup(username, password) {
-  console.log(username, typeof(username), password, typeof(password))
   let response = await axios.post(url, {
-      query: `
+    query: `
       mutation {
         signup(username: "${username}", password: "${password}" ) {
           Message,
@@ -14,7 +13,26 @@ export async function signup(username, password) {
         }
       }
       `
+  })
+  return response
+}
+
+export async function signin(username, password) {
+  let response = {}
+  try {
+     response = await axios.post(url, {
+      query: `
+      mutation{
+        signin(username: "${username}", password: "${password}") {
+          jwt
+          id
+          username
+        }
+      }
+      `
     })
-  console.log(response.data, "?????????????")
+  } catch(e) {
+    response = e.response
+  }
   return response
 }
