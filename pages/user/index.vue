@@ -1,13 +1,3 @@
 <template>
-  <p>{{userpage}}</p>
+  <nuxt-link to="/user/node">123</nuxt-link>
 </template>
-
-<script>
-export default {
-  data() {
-    return {
-      userpage: "userPage"
-    }
-  }
-}
-</script>

@@ -33,7 +33,7 @@ export default {
     let status = await this.isLoggedIn()
     if(status){
       console.log("if go to user", status )
-      this.$router.push("/user")
+      this.$router.push("/user/node")
     }
   },
   computed: {
