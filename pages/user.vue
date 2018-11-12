@@ -1,5 +1,7 @@
 <template>
- <el-container>
+ <div class="one">
+   <span class="bottom"></span>
+  <el-container class="parent">
   <el-header>一个订阅</el-header>
   <el-container>
     <el-aside width="200px">
@@ -32,6 +34,7 @@
   </el-container>
 </el-container>
 
+ </div>
 </template>
 
 <script>
@@ -45,6 +48,13 @@ export default {
 </script>
 
 <style>
+.bottom{
+  position:absolute;
+  padding-bottom: 0px;
+}
+.one{
+  height: 100%;
+}
 .tac {
   width: 200px;
 }
@@ -54,16 +64,14 @@ export default {
   line-height: 60px
 }
 .el-aside {
-  background-color: #d3dce6;
   color: #333;
   text-align: center;
   line-height: 200px;
 }
 
-.el-main {
-  background-color: #e9eef3;
+.parent {
   color: #333;
-  height: 1300px;
+  height: 1310px;
 }
 .nuxt-link{
   text-decoration: none;

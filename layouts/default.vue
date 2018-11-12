@@ -10,6 +10,7 @@ html {
   "Microsoft YaHei","微软雅黑",Arial,sans-serif;
   font-size: 16px;
   word-spacing: 1px;
+  height:100%;
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
   -moz-osx-font-smoothing: grayscale;
@@ -18,6 +19,10 @@ html {
 }
 p {
   color: #789922;
+}
+
+body  {
+  height:100%
 }
 
 *,

@@ -1,6 +1,13 @@
 <template>
-  <div class="addnode">
-    <p>>添加节点</p>
+<div class="addnode">
+<div class="head">
+  <el-button type="primary" @click="dialogVisible = true">添加节点</el-button>
+</div>
+<el-dialog
+  title="添加节点"
+  :visible.sync="dialogVisible"
+  width="30%"
+  :before-close="handleClose">
   <el-radio-group v-model="radio2">
     <el-radio :label="1">SSR</el-radio>
     <el-radio :label="2">SS</el-radio>
@@ -38,9 +45,9 @@
     <el-button type="primary" @click="onSubmit">添加</el-button>
   </el-form-item>
 </el-form>
-  </div>
+</el-dialog>
+</div>
 </template>
-
 <script>
    export default {
     data() {
@@ -57,21 +64,35 @@
           port: '',
           password: ''
         },
-        radio2: 1
+        radio2: 1,
+        dialogVisible: false
       }
     },
     methods: {
       onSubmit() {
         console.log('submit!');
+      },
+      handleClose(done) {
+      this.$confirm('确认关闭？')
+        .then(_ => {
+          done();
+        })
+        .catch(_ => {});
       }
     }
   }
 </script>
 
 <style>
+.head{
+    position:absolute;
+    margin: auto;
+    left: 40%;
+    width: 20%;
+}
+
+
 .addnode{
-  text-align: center;
-  line-height: 50px;
-  width: 500px
+  text-align: center
 }
 </style>
