@@ -1,10 +1,7 @@
 <template>
  <div class="one">
-   <span class="bottom"></span>
-  <el-container class="parent">
-  <el-header>一个订阅</el-header>
-  <el-container>
-    <el-aside width="200px">
+   <el-header>一个订阅</el-header>
+      <div class="aside"> 
       <el-menu
       :router = true
       default-active="1"
@@ -27,13 +24,12 @@
         <span slot="title">>be me</span>
       </el-menu-item>
     </el-menu>
-    </el-aside>
-    <el-main>
-      <router-view></router-view>
-    </el-main>
-  </el-container>
-</el-container>
-
+      </div>
+      <div class="view">
+        <router-view></router-view>
+      </div>
+      <div class="nothing">
+        </div>     
  </div>
 </template>
 
@@ -48,38 +44,30 @@ export default {
 </script>
 
 <style>
-.bottom{
-  position:absolute;
-  padding-bottom: 0px;
-}
 .one{
-  height: 100%;
-}
-.tac {
-  width: 200px;
+  position: relative;
+  text-align: center;
 }
 .el-header {
   background-color:mediumaquamarine;
   text-align: center;
   line-height: 60px
 }
-.el-aside {
+.view{
+  float: left;
+  width: 80%;
+}
+.aside {
+  position: relative;
+  float: left;
+  width: 10%;
   color: #333;
   text-align: center;
   line-height: 200px;
 }
+.nothing{
+  width: 10%;
+  height: 1px;
+}
 
-.parent {
-  color: #333;
-  height: 1310px;
-}
-.nuxt-link{
-  text-decoration: none;
-}
-.router-link-active {
-  text-decoration: none;
-  }
-body > .el-container {
-  margin-bottom: 40px;
-}
 </style>
