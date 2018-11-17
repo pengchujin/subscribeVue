@@ -39,8 +39,35 @@ export default {
     return {
       userpage: 'userPage'
     }
-  }
-}
+  },
+  async created() {
+    let status = await this.isLoggedIn()
+    if(!status){
+      console.log("if go to user", status )
+      this.$router.push("/")
+    }
+  },
+  methods: {
+    async isLoggedIn() {
+      await this.$store.dispatch('isLoggedIn')
+      console.log(this.$store.state.isLoggedIn, "loginStatus")
+      return this.$store.state.isLoggedIn
+    }      
+  },
+  computed: {
+    msgCount() {
+      let type = this.$store.state.msg.type
+      let msg = this.$store.state.msg.content
+      let showClose = this.$store.state.msg.showClose
+      if (msg !== '') {
+        let param = { type: type, message: msg, showClose: showClose }
+        console.log('message param:', param)
+        this.$message(param)
+      }
+      return this.$store.state.msg.count
+    }
+  },
+ }
 </script>
 
 <style>

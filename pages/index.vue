@@ -57,7 +57,7 @@ export default {
       await this.$store.dispatch('signin', this.user)
       let status = await this.isLoggedIn()
       if(status){
-        this.$router.push({path: "/user"})
+        this.$router.push({path: "/user/node"})
       }
     },
     async isLoggedIn() {

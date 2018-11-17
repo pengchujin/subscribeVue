@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import { signup, signin } from '../service/fetch.js'
+import { signup, signin, addNode } from '../service/fetch.js'
 Vue.use(Vuex)
 
 
@@ -19,6 +19,9 @@ const store = () => new Vuex.Store({
       state.msg.type = data.signup.TF
       state.msg.content = data.signup.Message
       state.msg.count++
+    },
+    setUser(state, data) {
+      state.user = data
     },
     signin(state, data) {
      if(!data.data){
@@ -44,6 +47,11 @@ const store = () => new Vuex.Store({
     isLoggedIn(state, data) {
         state.isLoggedIn = data
   },
+    addNode(state, data) {
+      state.msg.type = data.signup.TF
+      state.msg.content = data.signup.Message
+      state.msg.count++
+    }
 },
   actions: {
     async signup({commit}, user){
@@ -61,10 +69,16 @@ const store = () => new Vuex.Store({
       if (process.browser) {
          data =  window.localStorage.getItem('user')
       }
-      // console.log(localStorage)
-      // let data =  localStorage.getItem('user')
+      if(data) {
+        commit('setUser', JSON.parse(data))
+      }
       console.log(data,"111111111111111111")
       commit('isLoggedIn', !!data)
+    },
+    async addNode({commit}, info){
+      console.log(info,"ttttttttttttttttttttttttt")
+      let response = await addNode(info.node, info.jwt)
+      commit('', response.data)
     }
   }
 })

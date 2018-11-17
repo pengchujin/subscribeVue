@@ -36,3 +36,19 @@ export async function signin(username, password) {
   }
   return response
 }
+
+export async function addNode(node, jwt) {
+  console.log(jwt, "jwtttttttttttttttttttttttttttttttttttttttttttttt")
+  let response = await axios.post(url, {
+    query: `
+    mutation{ addNode(type: SSR, nodeInfo: { obfsParam : "${node.obfsParam}", title: "${node.title}", 
+     host : "${node.host}", method: "${node.method}", flag : "${node.flag}", obfs: "${node.obfs}", protoParam : "${node.protoParam}" ,port: ${node.port}, proto : "${node.proto}", password: "${node.password}"})  { TF Message}}
+    `
+  },
+  {
+    headers: { Authorization: "Bearer " + jwt }
+  }
+  )
+  console.log(response, "12312312312312312")
+  return response
+}
