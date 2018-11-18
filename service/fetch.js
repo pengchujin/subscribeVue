@@ -52,3 +52,17 @@ export async function addNode(node, jwt) {
   console.log(response, "12312312312312312")
   return response
 }
+
+export async function  getNodes(jwt) {
+  let response = await axios.post(url, {
+    query: `
+      query{nodesList { id type info {title port host method obfs obfsParam proto protoParam password}}}
+    `
+  },
+  {
+    headers: { Authorization: "Bearer " + jwt }
+  }
+  )
+  console.log(response, "getNodes function")
+  return response
+}

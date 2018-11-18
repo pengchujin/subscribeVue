@@ -1,5 +1,6 @@
 <template>
  <div class="one">
+   <div id="msg-dependencies" v-if="msgCount == 0"></div>
    <el-header>一个订阅</el-header>
       <div class="aside"> 
       <el-menu
@@ -45,7 +46,10 @@ export default {
     if(!status){
       console.log("if go to user", status )
       this.$router.push("/")
+    } else{
+      this.$store.dispatch('getNodes', this.$store.state.user.jwt)
     }
+    
   },
   methods: {
     async isLoggedIn() {

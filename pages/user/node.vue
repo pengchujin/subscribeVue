@@ -17,7 +17,7 @@
   <br><br>
   <el-form ref="form" :model="node" label-width="120px" label-position="left">
   <el-form-item label="节点名称">
-    <el-input v-model="node.name"></el-input>
+    <el-input v-model="node.title"></el-input>
   </el-form-item>
    <el-form-item label="服务器地址">
     <el-input v-model="node.host"></el-input>
@@ -70,9 +70,13 @@
 </el-form>
 </el-dialog>
 </div>
+<div class="nodes">
+  <Node  :node = node ></Node>
+</div>
 </div>
 </template>
 <script>
+import Node from '~/components/Node.vue'
    export default {
     data() {
       return {
@@ -207,7 +211,10 @@
       this.methods = this.loadAll();
       this.obfs = this.loadObfs();
       this.proto = this.loadProto();
-    }
+    },
+    components: {
+    Node
+  }
 
 
   }
@@ -218,14 +225,23 @@
   width: 400px;
 }
 .head{
-    padding: 30px;
+    padding-top: 50px;
     margin: auto;
 }
 .addnode{
+  
   text-align: center;
+  align-content: center;
 }
 .dia{
   padding: 30px;
+}
+.nodes{
+  width: 700px;
+  height: 200px;
+  position:relative;
+  text-align: center;
+  margin: 0 auto;
 }
 
 </style>
