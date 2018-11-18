@@ -54,7 +54,7 @@ const store = () => new Vuex.Store({
     },
     getNodes(state, data) {
       console.log(data)
-      state.node = data.nodesList
+      state.nodes = data.nodesList
     }
 },
   actions: {

@@ -1,10 +1,11 @@
-<template>
-  <div class="Node">
-    
-    <div class="title">{{node.title}}</div>
-    <div class="host">{{node.host}} </div>
-    <div class="type"> 类型：{{node.type}}</div>
+<template >
+  <li>
+    <div class="Node">
+    <div class="title">{{node.info.title}}</div>
+    <div class="host">{{node.info.host}} </div>
+    <div class="type">{{node.type}}</div>
   </div>
+  </li>
 </template>
 
 <script>

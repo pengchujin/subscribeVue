@@ -48,7 +48,6 @@
       @select="handleSelect"
     ></el-autocomplete>
   </el-form-item>
-
    <el-form-item label="混淆插件参数">
     <el-input v-model="node.obfsParam"></el-input>
   </el-form-item>
@@ -65,13 +64,12 @@
     <el-input v-model="node.protoParam"></el-input>
   </el-form-item>
    </div>
-
     <el-button type="primary" @click="addnode">添加</el-button>
 </el-form>
 </el-dialog>
 </div>
 <div class="nodes">
-  <Node  :node = node ></Node>
+    <div is="Node" v-for="node in nodes" v-bind:node="node" v-bind:key="node.id"></div>
 </div>
 </div>
 </template>
@@ -97,8 +95,8 @@ import Node from '~/components/Node.vue'
         dialogVisible: false
       }
     },
-    created() {
-      
+    async created() {
+      console.log("Hello World")
     },
     methods: {
       addnode() {
@@ -212,6 +210,11 @@ import Node from '~/components/Node.vue'
       this.obfs = this.loadObfs();
       this.proto = this.loadProto();
     },
+    computed:{
+      nodes() {
+        return this.$store.state.nodes
+      }
+    },
     components: {
     Node
   }
@@ -238,10 +241,15 @@ import Node from '~/components/Node.vue'
 }
 .nodes{
   width: 700px;
-  height: 200px;
   position:relative;
   text-align: center;
   margin: 0 auto;
+}
+
+li{
+  padding-bottom: 150px;
+  list-style-type: none;
+  margin:0px; 
 }
 
 </style>
