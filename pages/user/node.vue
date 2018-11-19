@@ -8,7 +8,7 @@
   title="添加节点"
   :visible.sync="dialogVisible"
   width="600px"
-  :before-close="handleClose">
+  >
   <el-radio-group v-model="radio2">
     <el-radio :label="1">SSR</el-radio>
     <!-- <el-radio :label="2">SS</el-radio> -->
@@ -99,13 +99,22 @@ import Node from '~/components/Node.vue'
       console.log("Hello World")
     },
     methods: {
-      addnode() {
-        console.log(this.node);
+      async addnode() {
+        if(this.node.host && this.node.title){
+          console.log(this.node);
         let node = this.node
         let jwt = this.$store.state.user.jwt
         node.port = Number(node.port)
         console.log("methods", this.$store.state.user.jwt)
-        this.$store.dispatch('addNode', {node, jwt} )
+        await this.$store.dispatch('addNode', {node, jwt} )
+        await this.$store.dispatch('getNodes', this.$store.state.user.jwt)
+        this.node.host = this.node.title =''
+        } else {
+          this.$message({
+          message: '请检查输入',
+          type: 'warning'
+        });
+        }
       },
       handleClose(done) {
       this.$confirm('确认关闭？')
@@ -113,6 +122,7 @@ import Node from '~/components/Node.vue'
           done();
         })
         .catch(_ => {});
+        
       },
        createFilter(queryString) {
         return (method) => {
@@ -160,6 +170,16 @@ import Node from '~/components/Node.vue'
       },
       loadObfs(){
         return [
+          {"value": "plain"},
+          {"value": "http_simple"},
+          {"value": "http_post"},
+          {"value": "tls1.0_session_auth"},
+          {"value": "tls1.2_ticket_auth"},
+          {"value": "tls1.2_ticket_fastauth"},
+        ]
+      },
+      loadProto(){
+        return [
           {"value": "origin"},
           {"value": "verifty_simple"},
           {"value": "verfify_sha1"},
@@ -171,16 +191,6 @@ import Node from '~/components/Node.vue'
           {"value": "auth_aes128_sha1"},
           {"value": "auth_chain_a"},
           {"value": "auth_chain_b"},
-        ]
-      },
-      loadProto(){
-        return [
-          {"value": "plain"},
-          {"value": "http_simple"},
-          {"value": "http_post"},
-          {"value": "tls1.0_session_auth"},
-          {"value": "tls1.2_ticket_auth"},
-          {"value": "tls1.2_ticket_fastauth"},
         ]   
       },
     querySearch(queryString, cb) {

@@ -1,7 +1,7 @@
 const axios = require('axios')
 
 
-let url = 'http://localhost:3001/graphql'
+let url = 'http://192.168.50.216:3001/graphql'
 
 export async function signup(username, password) {
   let response = await axios.post(url, {
@@ -64,5 +64,15 @@ export async function  getNodes(jwt) {
   }
   )
   console.log(response, "getNodes function")
+  return response
+}
+
+
+export async function getSubscribes(params) {
+  let response = await axios.post(url, {
+    query: `
+    mutation{ getAllNodes(urlKey: "${params}")}
+      `
+  })
   return response
 }
