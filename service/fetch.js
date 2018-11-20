@@ -1,7 +1,7 @@
 const axios = require('axios')
 
 
-let url = 'http://127.0.0.1:3001/graphql'
+let url = 'http://test.taolu.cloud:3001/graphql'
 
 export async function signup(username, password) {
   let response = await axios.post(url, {
