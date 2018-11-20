@@ -1,6 +1,6 @@
 <template>
-  <div><p>默认订阅地址</p>
-  <p>http://127.0.0.1:3000/subscribe/{{links}}</p></div>
+  <div><p>>默认订阅地址</p>
+  <p>http://test.taolu.cloud:3001/allnodes/{{links}}</p></div>
 </template>
 
 

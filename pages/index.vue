@@ -2,7 +2,7 @@
   <section class="container">
       <div>
       <div id="msg-dependencies" v-if="msgCount == 0"></div>
-      <Logo/>
+      <Logo></Logo>
       <p>>请输入邮箱</p>
       <el-input v-model="user.name"></el-input>
       <p>>请输入密码</p>
