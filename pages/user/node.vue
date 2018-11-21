@@ -99,6 +99,9 @@ import Node from '~/components/Node.vue'
       console.log("Hello World")
     },
     methods: {
+      showID() {
+        console.log("???")
+      },
       async addnode() {
         if(this.node.host && this.node.title){
           console.log(this.node);
@@ -228,8 +231,6 @@ import Node from '~/components/Node.vue'
     components: {
     Node
   }
-
-
   }
 </script>
 
