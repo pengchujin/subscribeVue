@@ -1,11 +1,13 @@
 <template>
 <div class="addnode">
 <div class="head">
-  <el-button type="primary" @click="dialogVisible = true">添加节点</el-button>
+  <el-button type="primary" @click="dialogVisible = true; ifEdit = false
+        ;dialogTitle = '添加节点'; ">添加节点</el-button>
 </div>
 <div class="dia">
   <el-dialog
-  title="添加节点"
+  :before-close="handleClose"
+  :title= dialogTitle
   :visible.sync="dialogVisible"
   width="600px"
   >
@@ -64,12 +66,15 @@
     <el-input v-model="node.protoParam"></el-input>
   </el-form-item>
    </div>
-    <el-button type="primary" @click="addnode">添加</el-button>
+    <el-button v-show=!ifEdit  type="primary" @click="addnode">添加</el-button>
+    <el-button v-show=ifEdit  type="primary" @click="modify">修改</el-button>
 </el-form>
 </el-dialog>
 </div>
 <div class="nodes">
-    <div is="Node" v-for="node in nodes" v-bind:node="node" v-bind:key="node.id"></div>
+    <Node v-for="node in nodes" v-bind:node="node" v-bind:key="node.id"
+    @modifyNode="modifyParentNode">
+       </Node>
 </div>
 </div>
 </template>
@@ -78,6 +83,9 @@ import Node from '~/components/Node.vue'
    export default {
     data() {
       return {
+        ifEdit: false,
+        dialogTitle: '添加节点',
+        nodeID: -1,
         node: {
           title: '',
           host: '',
@@ -94,13 +102,29 @@ import Node from '~/components/Node.vue'
         methods: [],
         dialogVisible: false
       }
+      
     },
     async created() {
       console.log("Hello World")
     },
     methods: {
+      async modifyParentNode(node){
+        console.log(node.id)
+        this.nodeID = node.id
+        this.ifEdit = true
+        this.dialogTitle = '修改节点'
+        this.node = node.info
+        this. dialogVisible = true
+      } ,
       showID() {
         console.log("???")
+      },
+      async modify() {
+        let infoNode = this.node
+        let id = this.nodeID
+        let jwt = this.$store.state.user.jwt
+        await this.$store.dispatch('modifyNode', {infoNode, id, jwt} )
+        this.dialogVisible = false
       },
       async addnode() {
         if(this.node.host && this.node.title){
@@ -119,13 +143,11 @@ import Node from '~/components/Node.vue'
         });
         }
       },
-      handleClose(done) {
-      this.$confirm('确认关闭？')
-        .then(_ => {
-          done();
-        })
-        .catch(_ => {});
-        
+      async handleClose(done) {
+        this.node.host = this.node.title =''
+        await this.$store.dispatch('getNodes', this.$store.state.user.jwt)
+        done();
+       
       },
        createFilter(queryString) {
         return (method) => {
@@ -217,6 +239,7 @@ import Node from '~/components/Node.vue'
       handleSelect(item) {
       // console.log(item);
   },
+  
     },
     mounted() {
       this.methods = this.loadAll();

@@ -1,8 +1,8 @@
 <template>
-  <section class="container">
+  <div class="container">
       <div>
       <div id="msg-dependencies" v-if="msgCount == 0"></div>
-      <Logo></Logo>
+      <div class="logo"><Logo></Logo></div>
       <p>>请输入邮箱</p>
       <el-input v-model="user.name"></el-input>
       <p>>请输入密码</p>
@@ -14,7 +14,7 @@
       </el-row>
       </div>
     </div>
-  </section>
+  </div>
 </template>
 
 <script>
@@ -73,6 +73,11 @@ export default {
 </script>
 
 <style>
+.logo{
+  position:relative;
+  text-align: center;
+  margin: 0 auto;
+}
 .container {
   min-height: 100vh;
   padding-bottom: 15%;

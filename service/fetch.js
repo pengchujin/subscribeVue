@@ -1,7 +1,8 @@
 const axios = require('axios')
 
 
-let url = 'http://test.taolu.cloud:3001/graphql'
+// let url = 'http://test.taolu.cloud:3001/graphql'
+let url = 'http://127.0.0.1:3001/graphql'
 
 export async function signup(username, password) {
   let response = await axios.post(url, {
@@ -73,6 +74,20 @@ export async function getSubscribes(params) {
     query: `
     mutation{ getAllNodes(urlKey: "${params}")}
       `
+  })
+  return response
+}
+
+export async function modifyNode(id, node, jwt) {
+  console.log(node.title, node)
+  let response = await axios.post(url, {
+    query: `
+    mutation{ modifyNode(nodeID: ${id}, nodeInfo: {obfsParam : "${node.obfsParam}", title: "${node.title}", 
+    host : "${node.host}", method: "${node.method}", flag : "${node.flag}", obfs: "${node.obfs}", protoParam : "${node.protoParam}" ,port: ${node.port}, proto : "${node.proto}", password: "${node.password}"})  { TF Message}}
+      `
+  },
+  {
+    headers: { Authorization: "Bearer " + jwt }
   })
   return response
 }
