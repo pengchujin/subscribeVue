@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import { signup, signin, addNode, getNodes, modifyNode } from '../service/fetch.js'
+import { signup, signin, addNode, getNodes, modifyNode, deleteNode } from '../service/fetch.js'
 Vue.use(Vuex)
 
 
@@ -60,6 +60,11 @@ const store = () => new Vuex.Store({
       state.msg.type = data.modifyNode.TF
       state.msg.content = data.modifyNode.Message
       state.msg.count++
+    },
+    deleteNode(state, data) {
+      state.msg.type = data.deleteNode.TF
+      state.msg.content = data.deleteNode.Message
+      state.msg.count++
     }
 },
   actions: {
@@ -99,6 +104,10 @@ const store = () => new Vuex.Store({
       commit('modifyNode', response.data.data)
       // let responseNodes = await getNodes(info.jwt)
       // commit('getNodes', responseNodes.data.data)
+    },
+    async deleteNode({commit}, info){
+      let response = await deleteNode(info.id, info.jwt)
+      commit('deleteNode', response.data.data)
     }
   }
 })

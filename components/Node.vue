@@ -9,8 +9,13 @@
     <div class="host"><p>{{node.info.host}}</p> </div>
     <div class="edit">
       <el-button @click="modify" type="primary" icon="el-icon-edit" circle></el-button>
-      <p>修改</p>
-    </div>
+      <div class="nodeFont"> <p>修改</p> </div>
+       </div>
+      <div class="delete">
+        <el-button @click="deleteNode"  type="danger"  icon="el-icon-delete" circle></el-button>
+        <div class="nodeFont"> <p>删除</p> </div>
+      </div>
+   
     <!-- <el-button type="success" plain v-on:click="showID">成功按钮</el-button> -->
     
   </div>
@@ -31,6 +36,10 @@
       modify(){
         this.$emit('modifyNode', this.node)
       },
+      deleteNode(){
+        this.$emit('deleteNode', this.node.id)
+        console.log(this.node.id)
+      },
       },
     props: {
       node: Object
@@ -40,12 +49,22 @@
 
 
 <style>
+.nodeFont {
+  padding-top: 5px;
+}
 .edit {
-  font-size: 12px;
+  font-size: 14px;
   float: right;
   padding-top: 26px;
-  padding-right: 30px;
+  padding-right: 20px;
 }
+.delete {
+  font-size: 14px;
+  float: right;
+  padding-top: 26px;
+  padding-right: 10px;
+}
+
 .image {
   float: left;
   padding-top: 17px;

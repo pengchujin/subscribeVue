@@ -73,7 +73,7 @@
 </div>
 <div class="nodes">
     <Node v-for="node in nodes" v-bind:node="node" v-bind:key="node.id"
-    @modifyNode="modifyParentNode">
+    @modifyNode="modifyParentNode" @deleteNode="deleteNode">
        </Node>
 </div>
 </div>
@@ -125,6 +125,11 @@ import Node from '~/components/Node.vue'
         let jwt = this.$store.state.user.jwt
         await this.$store.dispatch('modifyNode', {infoNode, id, jwt} )
         this.dialogVisible = false
+      },
+      async deleteNode(id){
+        let jwt = this.$store.state.user.jwt
+        await this.$store.dispatch('deleteNode', {id, jwt} )
+        await this.$store.dispatch('getNodes', this.$store.state.user.jwt)
       },
       async addnode() {
         if(this.node.host && this.node.title){

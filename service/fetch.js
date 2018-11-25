@@ -91,3 +91,16 @@ export async function modifyNode(id, node, jwt) {
   })
   return response
 }
+
+export async function deleteNode(id, jwt) {
+   console.log(id, jwt) 
+   let response = await axios.post(url, {
+    query: `
+    mutation{ deleteNode(nodeID: ${id})  { TF Message}}
+      `
+  },
+  {
+    headers: { Authorization: "Bearer " + jwt }
+  })
+  return response
+}
