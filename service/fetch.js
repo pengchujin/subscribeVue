@@ -49,21 +49,26 @@ export async function addNode(node, jwt) {
   {
     headers: { Authorization: "Bearer " + jwt }
   }
-  )
+  ) 
   console.log(response, "12312312312312312")
   return response
 }
 
 export async function  getNodes(jwt) {
-  let response = await axios.post(url, {
-    query: `
-      query{nodesList { id type info {title port host method obfs obfsParam proto protoParam password}}}
-    `
-  },
-  {
-    headers: { Authorization: "Bearer " + jwt }
+  let response = {}
+  try {
+     response = await axios.post(url, {
+      query: `
+        query{nodesList { id type info {title port host method obfs obfsParam proto protoParam password}}}
+      `
+    },
+    {
+      headers: { Authorization: "Bearer " + jwt }
+    }
+    )
+  } catch (e) {
+    response = e.response
   }
-  )
   console.log(response, "getNodes function")
   return response
 }

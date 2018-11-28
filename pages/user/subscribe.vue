@@ -14,6 +14,7 @@
    <p>shadowRocket 二维码</p>
    <qrcode class="qrcode" :value="msg" :options="{ size: 350 }"></qrcode>
   </div>
+ 
 </template>
 
 
@@ -38,8 +39,8 @@ import VueQrcode from '@xkeshi/vue-qrcode';
        window.location.href = this.msg
      }
     },
-    mounted() {
-      let url = this.api + this.$store.state.user.id
+    async created() {
+      let url = await this.api + this.$store.state.user.id
       this.msg = 'sub://' + Buffer.from(url).toString('base64').replace(/\+/g, '-').replace(/\//g, '_').replace(/\=+$/, '') + '#'
     },
     computed:{

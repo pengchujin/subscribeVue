@@ -53,8 +53,11 @@ const store = () => new Vuex.Store({
       state.msg.count++
     },
     getNodes(state, data) {
-      console.log(data)
-      state.nodes = data.nodesList
+      if(!state.nodes){
+        localStorage.removeItem('user')
+      } else {
+        state.nodes = data.nodesList
+      }
     },
     modifyNode(state, data) {
       state.msg.type = data.modifyNode.TF
