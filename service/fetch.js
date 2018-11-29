@@ -1,8 +1,8 @@
 const axios = require('axios')
 
 
-// let url = 'http://test.taolu.cloud:3001/graphql'
-let url = 'http://127.0.0.1:3001/graphql'
+let url = 'https://api.sebs.slub/graphql'
+// let url = 'http://127.0.0.1:3001/graphql'
 
 export async function signup(username, password) {
   let response = await axios.post(url, {
@@ -39,7 +39,6 @@ export async function signin(username, password) {
 }
 
 export async function addNode(node, jwt) {
-  console.log(jwt, "jwtttttttttttttttttttttttttttttttttttttttttttttt")
   let response = await axios.post(url, {
     query: `
     mutation{ addNode(type: SSR, nodeInfo: { obfsParam : "${node.obfsParam}", title: "${node.title}", 
@@ -50,7 +49,6 @@ export async function addNode(node, jwt) {
     headers: { Authorization: "Bearer " + jwt }
   }
   ) 
-  console.log(response, "12312312312312312")
   return response
 }
 
@@ -69,7 +67,6 @@ export async function  getNodes(jwt) {
   } catch (e) {
     response = e.response
   }
-  console.log(response, "getNodes function")
   return response
 }
 
@@ -84,7 +81,6 @@ export async function getSubscribes(params) {
 }
 
 export async function modifyNode(id, node, jwt) {
-  console.log(node.title, node)
   let response = await axios.post(url, {
     query: `
     mutation{ modifyNode(nodeID: ${id}, nodeInfo: {obfsParam : "${node.obfsParam}", title: "${node.title}", 
@@ -98,7 +94,6 @@ export async function modifyNode(id, node, jwt) {
 }
 
 export async function deleteNode(id, jwt) {
-   console.log(id, jwt) 
    let response = await axios.post(url, {
     query: `
     mutation{ deleteNode(nodeID: ${id})  { TF Message}}

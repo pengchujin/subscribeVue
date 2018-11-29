@@ -31,14 +31,12 @@
     },
      methods: {
       showID() {
-        console.log(this.node.id)
       },
       modify(){
         this.$emit('modifyNode', this.node)
       },
       deleteNode(){
         this.$emit('deleteNode', this.node.id)
-        console.log(this.node.id)
       },
       },
     props: {

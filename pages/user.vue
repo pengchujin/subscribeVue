@@ -44,7 +44,6 @@ export default {
   async created() {
     let status = await this.isLoggedIn()
     if(!status){
-      console.log("if go to user", status )
       this.$router.push("/")
     } else{
       this.$store.dispatch('getNodes', this.$store.state.user.jwt)
@@ -54,7 +53,6 @@ export default {
   methods: {
     async isLoggedIn() {
       await this.$store.dispatch('isLoggedIn')
-      console.log(this.$store.state.isLoggedIn, "loginStatus")
       return this.$store.state.isLoggedIn
     }      
   },
@@ -65,7 +63,6 @@ export default {
       let showClose = this.$store.state.msg.showClose
       if (msg !== '') {
         let param = { type: type, message: msg, showClose: showClose }
-        console.log('message param:', param)
         this.$message(param)
       }
       return this.$store.state.msg.count

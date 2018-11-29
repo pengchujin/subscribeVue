@@ -12,10 +12,8 @@ export default {
     }
   },
  async created() {
-    console.log(this.$route.params)
     let response = await getSubscribes(this.$route.params.uuid)
     this.subscribes = response.data.data.getAllNodes
-    console.log(this.subscribes)
   },
 }
 </script>

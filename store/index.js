@@ -15,7 +15,6 @@ const store = () => new Vuex.Store({
 
   mutations: {
     signup(state, data) {
-      console.log("signup mutation ", data)
       state.msg.type = data.signup.TF
       state.msg.content = data.signup.Message
       state.msg.count++
@@ -25,12 +24,10 @@ const store = () => new Vuex.Store({
     },
     signin(state, data) {
      if(!data.data){
-      console.log("signup mutation ", data)
       state.msg.type = 'error'
       state.msg.content = data.errors[0].extensions.errorFields.LoginError[0]
       state.msg.count++
      } else {
-      console.log("signup mutation ", data)
       state.msg.type = 'success'
       state.msg.content = '正在登录'
       state.msg.count++
@@ -72,7 +69,6 @@ const store = () => new Vuex.Store({
 },
   actions: {
     async signup({commit}, user){
-      console.log(user, "action signup")
       let response = await signup(user.name, user.password)
       commit('signup',response.data.data)
     },
@@ -82,18 +78,15 @@ const store = () => new Vuex.Store({
     },
     async isLoggedIn({commit}){
       let data = false
-      console.log(process.browser, "process.browser")
       if (process.browser) {
          data =  window.localStorage.getItem('user')
       }
       if(data) {
         commit('setUser', JSON.parse(data))
       }
-      console.log(data,"111111111111111111")
       commit('isLoggedIn', !!data)
     },
     async addNode({commit}, info){
-      console.log(info,"ttttttttttttttttttttttttt")
       let response = await addNode(info.node, info.jwt)
       commit('addNode', response.data.data)
     },
@@ -102,7 +95,6 @@ const store = () => new Vuex.Store({
       commit('getNodes', response.data.data)
     },
     async modifyNode({commit}, info) {
-      console.log(" modifyNode action", info)
       let response = await modifyNode(info.id,info.infoNode, info.jwt)
       commit('modifyNode', response.data.data)
       // let responseNodes = await getNodes(info.jwt)

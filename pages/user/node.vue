@@ -105,11 +105,9 @@ import Node from '~/components/Node.vue'
       
     },
     async created() {
-      console.log("Hello World")
     },
     methods: {
       async modifyParentNode(node){
-        console.log(node.id)
         this.nodeID = node.id
         this.ifEdit = true
         this.dialogTitle = '修改节点'
@@ -117,7 +115,6 @@ import Node from '~/components/Node.vue'
         this. dialogVisible = true
       } ,
       showID() {
-        console.log("???")
       },
       async modify() {
         let infoNode = this.node
@@ -133,11 +130,9 @@ import Node from '~/components/Node.vue'
       },
       async addnode() {
         if(this.node.host && this.node.title){
-          console.log(this.node);
         let node = this.node
         let jwt = this.$store.state.user.jwt
         node.port = Number(node.port)
-        console.log("methods", this.$store.state.user.jwt)
         await this.$store.dispatch('addNode', {node, jwt} )
         await this.$store.dispatch('getNodes', this.$store.state.user.jwt)
         this.node.host = this.node.title =''
@@ -242,7 +237,7 @@ import Node from '~/components/Node.vue'
       cb(results);
     },
       handleSelect(item) {
-      // console.log(item);
+
   },
   
     },

@@ -23,7 +23,7 @@ import VueQrcode from '@xkeshi/vue-qrcode';
   export default {
     data(){
       return {
-        api: 'http://192.168.50.216:3001/allnodes/',
+        api: 'https://api.sebs.slub/allnodes/',
         link: '',
         msg: ''
       }
