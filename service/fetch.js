@@ -1,7 +1,7 @@
 const axios = require('axios')
 
 
-let url = 'https://api.sebs.slub/graphql'
+let url = 'https://api.sebs.club/graphql'
 // let url = 'http://127.0.0.1:3001/graphql'
 
 export async function signup(username, password) {
