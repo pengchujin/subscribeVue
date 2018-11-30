@@ -1,7 +1,7 @@
 {
-  "name": "testVue",
+  "name": "oneSubscribe",
   "version": "1.0.0",
-  "description": "My first-rate Nuxt.js project",
+  "description": "one Subscribe is enough",
   "author": "pengchujin",
   "private": true,
   "scripts": {
