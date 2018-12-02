@@ -24,6 +24,10 @@
         <i class="el-icon-setting"></i>
         <span slot="title">>be me</span>
       </el-menu-item>
+      <el-menu-item @click="logOut" index="5" route="/">
+        <i class="el-icon-back"></i>
+        <span slot="title">>登出</span>
+      </el-menu-item>
     </el-menu>
       </div>
       <div class="view">
@@ -54,6 +58,9 @@ export default {
     async isLoggedIn() {
       await this.$store.dispatch('isLoggedIn')
       return this.$store.state.isLoggedIn
+    },
+    async logOut() {
+      await this.$store.commit('signout')
     }      
   },
   computed: {

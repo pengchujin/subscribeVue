@@ -44,6 +44,10 @@ const store = () => new Vuex.Store({
     isLoggedIn(state, data) {
         state.isLoggedIn = data
   },
+    signout(state) {
+      state.isLoggedIn = false
+      localStorage.removeItem('user')
+    },
     addNode(state, data) {
       state.msg.type = data.addNode.TF
       state.msg.content = data.addNode.Message
