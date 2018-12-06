@@ -13,7 +13,7 @@
   >
   <el-radio-group v-model="radio2">
     <el-radio :label="1">SSR</el-radio>
-    <!-- <el-radio :label="2">SS</el-radio> -->
+    <el-radio :label="2">SS</el-radio>
     <el-radio :label="3" disabled>v2ray</el-radio>
   </el-radio-group>
   <br><br>
@@ -114,6 +114,9 @@ import Node from '~/components/Node.vue'
         this.node = node.info
         this. dialogVisible = true
       } ,
+      ssRadio() {
+        console.log("chose shadowsocks")
+      },
       showID() {
       },
       async modify() {
@@ -130,6 +133,10 @@ import Node from '~/components/Node.vue'
       },
       async addnode() {
         if(this.node.host && this.node.title){
+          if(this.radio2 == 2){
+            this.node.proto = 'origin'
+            this.node.obfs = 'plain'
+          }
         let node = this.node
         let jwt = this.$store.state.user.jwt
         node.port = Number(node.port)
