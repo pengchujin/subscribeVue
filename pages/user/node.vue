@@ -14,10 +14,69 @@
   <el-radio-group v-model="radio2">
     <el-radio :label="1">SSR</el-radio>
     <el-radio :label="2">SS</el-radio>
-    <el-radio :label="3" disabled>v2ray</el-radio>
+    <el-radio :label="3">v2ray</el-radio>
   </el-radio-group>
   <br><br>
-  <el-form ref="form" :model="node" label-width="120px" label-position="left">
+  <!-- V2ray -->
+  <el-form v-if="radio2 == 3" ref="form" :model="node" label-width="120px" label-position="left">
+  <el-form-item label="节点名称">
+    <el-input v-model="v2rayNode.ps"></el-input>
+  </el-form-item>
+   <el-form-item label="服务器地址">
+    <el-input v-model="v2rayNode.add"></el-input>
+  </el-form-item>
+  <el-form-item label="端口号">
+    <el-input v-model="v2rayNode.port" value="number"></el-input>
+  </el-form-item> 
+  <el-form-item label="UUID">
+      <el-input v-model="v2rayNode.id"></el-input>
+  </el-form-item>
+  <el-form-item label="默认算法" >
+      <el-autocomplete
+      class="inline-input"
+      placeholder="可以不填 默认优先为 chacha20-poly1305" v-model="v2rayNode.method"
+      :fetch-suggestions="v2rayMethodsSearch"
+      @select="handleSelect"
+    ></el-autocomplete>
+  </el-form-item>
+  <el-form-item label="alterId" >
+      <el-input placeholder="不知道 则不用填 默认为0" v-model="v2rayNode.aid"></el-input>
+  </el-form-item>
+   <el-form-item label="TLS">
+     <el-autocomplete
+      class="inline-input"
+      placeholder="不知道 则不用填 默认为关闭"  v-model="v2rayNode.tls"
+      :fetch-suggestions="v2rayTLSSearch"
+      @select="handleSelect"
+    ></el-autocomplete>
+  </el-form-item>
+  <el-form-item label="网络模式">
+      <el-autocomplete
+      class="inline-input"
+      placeholder="不知道 则不用填 默认为tcp"  v-model="v2rayNode.net"
+      :fetch-suggestions="v2rayNetSearch"
+      @select="handleSelect"
+    ></el-autocomplete>
+  </el-form-item>
+  <el-form-item label="Host">
+      <el-input placeholder="不知道 则不用填 默认为空" v-model="v2rayNode.host"></el-input>
+  </el-form-item>
+  <el-form-item label="head type">
+      <el-autocomplete
+      class="inline-input"
+      placeholder="不知道 则不用填 默认为空" v-model="v2rayNode.type"
+      :fetch-suggestions="v2rayTypeSearch"
+      @select="handleSelect"
+    ></el-autocomplete>
+  </el-form-item>
+  <el-form-item label="path HTTP 路径">
+      <el-input placeholder="不知道 则不用填 默认为空" v-model="v2rayNode.path"></el-input>
+  </el-form-item>
+    <el-button v-show=!ifEdit  type="primary" @click="addnode">添加</el-button>
+    <el-button v-show=ifEdit  type="primary" @click="modify">修改</el-button>
+</el-form>
+
+  <el-form v-if="radio2 != 3" ref="form" :model="node" label-width="120px" label-position="left">
   <el-form-item label="节点名称">
     <el-input v-model="node.title"></el-input>
   </el-form-item>
@@ -98,7 +157,33 @@ import Node from '~/components/Node.vue'
           port: '',
           password: ''
         },
+        v2rayNode: {
+          //  服务器
+          add: '',
+          // 节点名称
+          ps: '',
+          // 端口号
+          port: '',
+          // alter ID
+          aid: '',
+          // tls 域名
+          host: '',
+          // uuid
+          id: '',
+          //推荐 算法
+          method: '',
+          // 网络模式 iOS 混淆 obfs
+          net: '',
+          // tls域名路径
+          path: '',
+          // 是否开启tls
+          tls: '',
+          // head type
+          type: ''
+
+        },
         radio2: 1,
+        type: '',
         methods: [],
         dialogVisible: false
       }
@@ -108,23 +193,43 @@ import Node from '~/components/Node.vue'
     },
     methods: {
       async modifyParentNode(node){
+        this.type = node.type
+        if(this.type == 'SSR'){
+          this.radio2 = 1
+          this.node = node.info
+        }
+        if(this.type == 'V2RAY'){
+           this.radio2 = 3
+           this.v2rayNode = node.info
+         }
         this.nodeID = node.id
         this.ifEdit = true
         this.dialogTitle = '修改节点'
-        this.node = node.info
+        
         this. dialogVisible = true
       } ,
-      ssRadio() {
-        console.log("chose shadowsocks")
-      },
       showID() {
       },
       async modify() {
-        let infoNode = this.node
-        let id = this.nodeID
-        let jwt = this.$store.state.user.jwt
-        await this.$store.dispatch('modifyNode', {infoNode, id, jwt} )
-        this.dialogVisible = false
+        
+        if(this.radio2 == 1 || this.radio2 == 2) {
+          let infoNode = this.node
+          let id = this.nodeID
+          let type = 'SSR'
+          infoNode.port = Number(infoNode.port)
+          let jwt = this.$store.state.user.jwt
+          await this.$store.dispatch('modifyNode', {infoNode, type ,id, jwt} )
+          this.dialogVisible = false
+        }
+        if(this.radio2 == 3) {
+          let infoNode = this.v2rayNode
+          let id = this.nodeID
+          let type = 'V2RAY'
+          infoNode.port = String(infoNode.port)
+          let jwt = this.$store.state.user.jwt
+          await this.$store.dispatch('modifyNode', {infoNode, type,id, jwt} )
+          this.dialogVisible = false          
+        }
       },
       async deleteNode(id){
         let jwt = this.$store.state.user.jwt
@@ -132,15 +237,17 @@ import Node from '~/components/Node.vue'
         await this.$store.dispatch('getNodes', this.$store.state.user.jwt)
       },
       async addnode() {
-        if(this.node.host && this.node.title){
+        if(this.radio2 == 1 || this.radio2 == 2) {
+          if(this.node.host && this.node.title){
           if(this.radio2 == 2){
             this.node.proto = 'origin'
             this.node.obfs = 'plain'
           }
         let node = this.node
         let jwt = this.$store.state.user.jwt
+        let type = 'SSR'
         node.port = Number(node.port)
-        await this.$store.dispatch('addNode', {node, jwt} )
+        await this.$store.dispatch('addNode', {node, type, jwt} )
         await this.$store.dispatch('getNodes', this.$store.state.user.jwt)
         this.node.host = this.node.title =''
         } else {
@@ -148,6 +255,25 @@ import Node from '~/components/Node.vue'
           message: '请检查输入',
           type: 'warning'
         });
+        }
+        } 
+        if(this.radio2 == 3){
+            if(this.v2rayNode.add && this.v2rayNode.ps) {
+              !this.v2rayNode.method ? this.v2rayNode.method = 'chacha20-poly1305' : ''
+              !this.v2rayNode.aid ? this.v2rayNode.aid = '0' : ''
+              !this.v2rayNode.net ? this.v2rayNode.net = 'tcp' : ''
+              let node = this.v2rayNode
+              let jwt = this.$store.state.user.jwt
+              let type = 'V2RAY'
+              await this.$store.dispatch('addNode', {node, type, jwt} )
+              await this.$store.dispatch('getNodes', this.$store.state.user.jwt)
+              this.v2rayNode.add = this.v2rayNode.ps =''
+            } else {
+              this.$message({
+              message: '请检查输入',
+              type: 'warning'
+              });
+            }
         }
       },
       async handleClose(done) {
@@ -225,6 +351,38 @@ import Node from '~/components/Node.vue'
           {"value": "auth_chain_b"},
         ]   
       },
+      loadV2rayMethods(){
+        return [
+          {"value": "none"},
+          {"value": "aes-128-cfb"},
+          {"value": "aes-128-gcm"},
+          {"value": "chacha20-poly1305"},
+        ]   
+      },
+      loadv2rayTLS(){
+        return [
+          {"value": "tls"},
+        ]   
+      },
+      loadv2rayNet(){
+        return [
+          {"value": "tcp"},
+          {"value": "kcp"},
+          {"value": "ws"},
+          {"value": "h2"},
+        ]   
+      },
+      loadv2rayType(){
+        return [
+          {"value": "none"},
+          {"value": "http"},
+          {"value": "srtp"},
+          {"value": "utp"},
+          {"value": "wechat-vedio"},
+          {"value": "dtls"},
+          {"value": "wireguard"}
+        ]   
+      },
     querySearch(queryString, cb) {
         var methods = this.methods;
         var results = queryString ? methods.filter(this.createFilter(queryString)) : methods;
@@ -243,15 +401,43 @@ import Node from '~/components/Node.vue'
       // 调用 callback 返回建议列表的数据
       cb(results);
     },
+    v2rayMethodsSearch(queryString, cb) {
+      var v2rayMethods = this.v2rayMethods;
+      var results = queryString ? v2rayMethods.filter(this.createFilter(queryString)) : v2rayMethods;
+      // 调用 callback 返回建议列表的数据
+      cb(results);
+    },
+     v2rayTLSSearch(queryString, cb) {
+      var v2rayTLS = this.v2rayTLS;
+      var results = queryString ? v2rayTLS.filter(this.createFilter(queryString)) : v2rayTLS;
+      // 调用 callback 返回建议列表的数据
+      cb(results);
+    }, 
+    v2rayNetSearch(queryString, cb) {
+      var v2rayNet = this.v2rayNet;
+      var results = queryString ? v2rayNet.filter(this.createFilter(queryString)) : v2rayNet;
+      // 调用 callback 返回建议列表的数据
+      cb(results);
+    },
+    v2rayTypeSearch(queryString, cb) {
+      var v2rayType = this.v2rayType;
+      var results = queryString ? v2rayType.filter(this.createFilter(queryString)) : v2rayType;
+      // 调用 callback 返回建议列表的数据
+      cb(results);
+    },
       handleSelect(item) {
 
   },
   
     },
     mounted() {
-      this.methods = this.loadAll();
-      this.obfs = this.loadObfs();
-      this.proto = this.loadProto();
+      this.methods = this.loadAll()
+      this.obfs = this.loadObfs()
+      this.proto = this.loadProto()
+      this.v2rayMethods = this.loadV2rayMethods()
+      this.v2rayTLS = this.loadv2rayTLS()
+      this.v2rayNet = this.loadv2rayNet()
+      this.v2rayType = this.loadv2rayType()
     },
     computed:{
       nodes() {

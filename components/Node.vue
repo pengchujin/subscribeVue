@@ -1,6 +1,6 @@
 <template >
   <li > 
-    <div class="Node" >
+    <div class="Node" v-if="node.type == 'SSR'">
     <div class="image"> 
       <img  src="~/static/ssr_logo.png" alt="ssrIcon" height="60" width="60">
       <div class="type">{{node.type}}</div>
@@ -16,6 +16,24 @@
         <div class="nodeFont"> <p>删除</p> </div>
       </div>
    
+    <!-- <el-button type="success" plain v-on:click="showID">成功按钮</el-button> -->
+    
+  </div>
+      <div class="Node" v-if="node.type == 'V2RAY'">
+    <div class="image"> 
+      <img  src="~/static/v2ray_logo.png" alt="ssrIcon" height="60" width="60">
+      <div class="type">{{node.type}}</div>
+    </div>
+    <div class="title"><p>{{node.info.ps}}</p></div>
+    <div class="host"><p>{{node.info.add}}</p> </div>
+    <div class="edit">
+      <el-button @click="modify" type="primary" icon="el-icon-edit" circle></el-button>
+      <div class="nodeFont"> <p>修改</p> </div>
+       </div>
+      <div class="delete">
+        <el-button @click="deleteNode"  type="danger"  icon="el-icon-delete" circle></el-button>
+        <div class="nodeFont"> <p>删除</p> </div>
+      </div>
     <!-- <el-button type="success" plain v-on:click="showID">成功按钮</el-button> -->
     
   </div>

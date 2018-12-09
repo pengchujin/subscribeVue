@@ -49,8 +49,8 @@ const store = () => new Vuex.Store({
       localStorage.removeItem('user')
     },
     addNode(state, data) {
-      state.msg.type = data.addNode.TF
-      state.msg.content = data.addNode.Message
+      !!data.addNode?  state.msg.type = data.addNode.TF : state.msg.type = data.addV2rayNode.TF
+      !!data.addNode?  state.msg.content = data.addNode.Message : state.msg.content = data.addV2rayNode.Message
       state.msg.count++
     },
     getNodes(state, data) {
@@ -61,8 +61,8 @@ const store = () => new Vuex.Store({
       }
     },
     modifyNode(state, data) {
-      state.msg.type = data.modifyNode.TF
-      state.msg.content = data.modifyNode.Message
+      !!data.modifyNode ? state.msg.type = data.modifyNode.TF : state.msg.type = data.modifyV2rayNode.TF
+      !!data.modifyNode ? state.msg.content = data.modifyNode.Message : state.msg.content = data.modifyV2rayNode.Message
       state.msg.count++
     },
     deleteNode(state, data) {
@@ -91,7 +91,7 @@ const store = () => new Vuex.Store({
       commit('isLoggedIn', !!data)
     },
     async addNode({commit}, info){
-      let response = await addNode(info.node, info.jwt)
+      let response = await addNode(info.node, info.type, info.jwt)
       commit('addNode', response.data.data)
     },
     async getNodes({commit}, jwt) {
@@ -99,7 +99,7 @@ const store = () => new Vuex.Store({
       commit('getNodes', response.data.data)
     },
     async modifyNode({commit}, info) {
-      let response = await modifyNode(info.id,info.infoNode, info.jwt)
+      let response = await modifyNode(info.id, info.type, info.infoNode, info.jwt)
       commit('modifyNode', response.data.data)
       // let responseNodes = await getNodes(info.jwt)
       // commit('getNodes', responseNodes.data.data)
