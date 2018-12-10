@@ -277,6 +277,7 @@ import Node from '~/components/Node.vue'
         }
       },
       async handleClose(done) {
+        this.v2rayNode.add = this.v2rayNode.ps = ''
         this.node.host = this.node.title =''
         await this.$store.dispatch('getNodes', this.$store.state.user.jwt)
         done();
