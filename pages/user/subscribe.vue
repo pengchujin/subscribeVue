@@ -24,7 +24,7 @@ import VueQrcode from '@xkeshi/vue-qrcode';
     data(){
       return {
         api: 'https://api.sebs.club/allnodes/',
-        // api: 'http://172.20.10.5:3001/allnodes/',
+        // api: 'http://192.168.50.216:3001/allnodes/',
         link: '',
         msg: ''
       }

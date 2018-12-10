@@ -23,7 +23,7 @@ import VueQrcode from '@xkeshi/vue-qrcode';
   export default {
     data(){
       return {
-        api: 'http://share.sebs.club',
+        api: 'https://api.sebs.club/allnodes/50b3065c-b859-494b-a33a-f7d60aa29396',
         msg: ''
       }
     },

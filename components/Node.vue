@@ -19,7 +19,7 @@
     <!-- <el-button type="success" plain v-on:click="showID">成功按钮</el-button> -->
     
   </div>
-      <div class="Node" v-if="node.type == 'V2RAY'">
+      <div class="nodeV2ray" v-if="node.type == 'V2RAY'">
     <div class="image"> 
       <img  src="~/static/v2ray_logo.png" alt="ssrIcon" height="60" width="60">
       <div class="type">{{node.type}}</div>
@@ -69,6 +69,7 @@
   padding-top: 5px;
 }
 .edit {
+  line-height: 14px;
   font-size: 14px;
   float: right;
   padding-top: 26px;
@@ -76,6 +77,7 @@
 }
 .delete {
   font-size: 14px;
+  line-height: 14px;
   float: right;
   padding-top: 26px;
   padding-right: 10px;
@@ -91,12 +93,24 @@
   text-align: center;
   padding-top: 1px;
   width: 700px;
-  background-color:azure;
+  background-color:#FDCDDD;
   height: 100px;
   border:2px ;
   border-radius:60px;
   -moz-border-radius:60px;
-  box-shadow: 4px 4px 2px #888888;
+  box-shadow: 4px 4px 2px #BD9189;
+}
+.nodeV2ray{
+  position: absolute;
+  text-align: center;
+  padding-top: 1px;
+  width: 700px;
+  background-color: #FDD6D8;
+  height: 100px;
+  border:2px ;
+  border-radius:60px;
+  -moz-border-radius:60px;
+  box-shadow: 4px 4px 2px #BD9189;
 }
 .title{
   position: absolute; left: 0; top: 0; right: 0; bottom: 0;
