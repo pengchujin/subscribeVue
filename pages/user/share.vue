@@ -1,6 +1,11 @@
 <template>
   <div>
-    <div class="header"><p>>SSR免费共享订阅地址</p>
+    <div class="header">
+       <el-radio-group v-model="radio" size="medium">
+        <el-radio :label="0">混合订阅(ssr + v2ray)</el-radio>
+        <el-radio :label="1">v2ray 订阅</el-radio>
+        <el-radio :label="2">ssr 订阅</el-radio>
+      </el-radio-group>
     </div>
    <div class="content">
       <div><p>{{links}}</p></div>
@@ -23,8 +28,10 @@ import VueQrcode from '@xkeshi/vue-qrcode';
   export default {
     data(){
       return {
-        api: 'https://api.sebs.club/allnodes/50b3065c-b859-494b-a33a-f7d60aa29396',
-        msg: ''
+        radio: 0,
+        api: 'https://api.sebs.club/',
+        uuid: '50b3065c-b859-494b-a33a-f7d60aa29396',
+        type: ''
       }
     },
     methods: {
@@ -39,12 +46,17 @@ import VueQrcode from '@xkeshi/vue-qrcode';
      }
     },
     async created() {
-      let url = await this.api
-      this.msg = 'sub://' + Buffer.from(url).toString('base64').replace(/\+/g, '-').replace(/\//g, '_').replace(/\=+$/, '') + '#'
+      
     },
     computed:{
       links() {
-        return this.api
+        let typeArray = ['allnodes/', 'v2ray/', 'ssr/']
+        this.type = typeArray[this.radio]
+        return this.api + this.type + this.uuid
+      },
+      msg() {
+        let url =  this.api + this.type + this.uuid
+        return 'sub://' + Buffer.from(url).toString('base64').replace(/\+/g, '-').replace(/\//g, '_').replace(/\=+$/, '') + '#'
       }
     },
     comments: {
