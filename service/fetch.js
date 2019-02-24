@@ -1,8 +1,8 @@
 const axios = require('axios')
 
 
-let url = 'https://api.sebs.club/graphql'
-// let url = 'http://192.168.50.216:3001/graphql'
+// let url = 'https://api.sebs.club/graphql'
+let url = 'http://192.168.50.216:3001/graphql'
 
 export async function signup(username, password) {
   let response = await axios.post(url, {

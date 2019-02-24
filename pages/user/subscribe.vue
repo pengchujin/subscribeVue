@@ -18,6 +18,12 @@
    <br>
    <p>shadowRocket 二维码</p>
    <qrcode class="qrcode" :value="msg" :options="{ size: 350 }"></qrcode>
+   <br>
+   <img  src="~/static/clash.png" alt="ssrIcon" height="200" width="200">
+   <div><p>{{clash}}</p></div>
+   <div class="copy"><el-button v-clipboard:copy="clash"
+      v-clipboard:success="onCopy"
+      v-clipboard:error="onError" type="primary" round>复制 Clash 链接</el-button></div>
   </div>
  
 </template>
@@ -50,6 +56,9 @@ import VueQrcode from '@xkeshi/vue-qrcode';
         let typeArray = ['allnodes/', 'v2ray/', 'ssr/']
         this.type = typeArray[this.radio]
         return this.api + this.type + this.$store.state.user.id
+      },
+      clash(){
+        return this.api + "ClashX/" + this.$store.state.user.id
       },
       msg() {
          let url =  this.api + this.type + this.$store.state.user.id
